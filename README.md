@@ -1,33 +1,23 @@
-# Southlake Operations — Pilot 0.1
+# Southlake OS — v0.4 workspace foundation
 
-A mobile-friendly React/Vite PWA connected to Supabase. Current pilot modules: email/password sign-in, shared jobs, date-based daily assignments, job notes, private photo uploads, and job chat.
+This package is the next source iteration of the Southlake OS pilot.
 
-## Important pilot limitations
-- This is a limited two-owner pilot, not the finished production system.
-- Invite only the two owners initially. The SQL policies allow any authenticated pilot account to read pilot records; do not invite employees or outside contacts until membership-based access controls are implemented and tested.
-- Assignment entries are currently labels (employee name/number), not linked employee accounts. This is deliberate for the first owner-only test.
-- No approved change-order workflow, permanent user management, role-based permissions, employee PIN login, push notifications, audit history, or financial module yet.
-- Do not upload sensitive customer, payment, bank, or confidential contract information during this pilot.
-- Back up uploaded Storage files separately; database backups do not automatically provide a complete independent copy of photo objects.
+## Included
+- Existing React + Vite + Supabase app and working pilot workflows.
+- Exact Southlake logo supplied by the owners, applied to login and app header.
+- Responsive layout refinements.
+- Existing job, assignment, note, photo and message features retained.
 
-## 1. Supabase setup
-1. Open the `Southlake-Pilot` project.
-2. Open **SQL Editor**, create a new query, paste `supabase-setup.sql`, and run it.
-3. In **Authentication → Users**, invite only the two owners by email. If email confirmation is enabled, complete confirmation before signing in. Disable public sign-ups in the Auth settings so nobody else can create a pilot account.
-4. In **Project Settings → API**, copy the Project URL and the publishable key (or legacy anon key). Never use the `service_role` / secret key in this browser app.
+## Current scope / not yet employee-ready
+The app still uses the original pilot data model for its existing screens. The expanded schema in
+`supabase-complete-foundation.sql` is a design/migration artifact and must be reviewed and tested
+against the actual Supabase schema before applying. Do not onboard staff until database policies,
+Storage object policies, role-aware UI and multi-role tests are complete.
 
-## 2. Add code to GitHub
-Upload the contents of this folder to the root of the private `Southlake-OS` repository (not the enclosing folder). Commit to the default branch.
+## Run locally
+1. Copy `env.example` to `.env`.
+2. Set `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY`.
+3. `npm install`
+4. `npm run dev`
 
-## 3. Deploy with Vercel
-1. Import `Southlake-OS` in Vercel and choose the Vite framework preset (or let Vercel detect it).
-2. Add environment variables:
-   - `VITE_SUPABASE_URL` = Supabase Project URL
-   - `VITE_SUPABASE_ANON_KEY` = Supabase publishable/anon key
-3. Deploy. Later changes to the GitHub default branch trigger redeploys.
-
-## 4. Install on phones
-Open the Vercel deployment URL in Chrome on Android or Safari on iPhone. Use the browser's **Add to Home Screen** option. The pilot is responsive and has a web app manifest; offline editing and push notifications are not included.
-
-## Local development
-`npm install`, create `.env.local` from `.env.example`, then `npm run dev`.
+Never put a Supabase service-role key in browser environment variables.
